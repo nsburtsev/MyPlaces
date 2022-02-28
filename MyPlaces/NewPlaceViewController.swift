@@ -11,8 +11,7 @@ import UIKit
 class NewPlaceViewController: UITableViewController {
 
     @IBOutlet weak var imageOfPlace: UIImageView!
-    //присваиваем выбранное изображение для ImageView
-    
+        
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,15 +26,26 @@ class NewPlaceViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
+            
+            let cameraIcon = #imageLiteral(resourceName: "camera")
+            let photoIcon = #imageLiteral(resourceName: "photo")
+            
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
             // список пользовательских действий
             let camera = UIAlertAction(title: "Camera", style: .default) { _ in
                 self.chooseImagePicker(source: .camera)
             }
+            camera.setValue(cameraIcon, forKey: "image")
+            camera.setValue(CATextLayerAlignmentMode.left , forKey: "titleTextAlignment")
+            
+            
             let photo = UIAlertAction(title: "Photo", style: .default) { _ in
                  self.chooseImagePicker(source: .photoLibrary)
             }
+            photo.setValue(photoIcon, forKey: "image")
+            photo.setValue(CATextLayerAlignmentMode.left , forKey: "titleTextAlignment")
+            
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             
             actionSheet.addAction(camera)
@@ -78,6 +88,7 @@ extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationC
         }
     }
     
+    //присваиваем выбранное изображение
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         imageOfPlace.image = info[.editedImage] as! UIImage
